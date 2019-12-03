@@ -1,5 +1,6 @@
-package com.example.sportmanager.data.model;
+package com.example.sportmanager.data.Domain;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -8,7 +9,9 @@ public class Muscle {
 
 
     private int id;
+
     @PrimaryKey
+    @NonNull
     private String nom;
 
     public int getId() {

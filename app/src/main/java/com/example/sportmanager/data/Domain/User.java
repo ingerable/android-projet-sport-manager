@@ -1,4 +1,4 @@
-package com.example.sportmanager.data.model;
+package com.example.sportmanager.data.Domain;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -8,6 +8,7 @@ public class User {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
+    private String login;
     private String firstname;
     private String lastname;
     private String email;
@@ -61,6 +62,14 @@ public class User {
 
     public void setHashPass(String hashPass) {
         this.hashPass = hashPass;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getPathImage() {

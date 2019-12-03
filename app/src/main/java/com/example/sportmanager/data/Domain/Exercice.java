@@ -1,4 +1,4 @@
-package com.example.sportmanager.data.model;
+package com.example.sportmanager.data.Domain;
 
 import androidx.room.Embedded;
 import androidx.room.Entity;
@@ -82,5 +82,13 @@ public class Exercice {
 
     public void setDifficulty(int difficulty) {
         this.difficulty = difficulty;
+    }
+
+    public Recurrence getRecurrence() {
+        return recurrence;
+    }
+
+    public void setRecurrence(Recurrence recurrence) {
+        this.recurrence = recurrence;
     }
 }

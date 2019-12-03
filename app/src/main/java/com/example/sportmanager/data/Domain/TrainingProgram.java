@@ -1,4 +1,4 @@
-package com.example.sportmanager.data.model;
+package com.example.sportmanager.data.Domain;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
