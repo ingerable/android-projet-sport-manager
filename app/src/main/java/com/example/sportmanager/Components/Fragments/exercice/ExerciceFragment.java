@@ -1,4 +1,4 @@
-package com.example.sportmanager.ui.send;
+package com.example.sportmanager.Components.Fragments.exercice;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.sportmanager.R;
 
-public class SendFragment extends Fragment {
+public class ExerciceFragment extends Fragment {
 
-    private SendViewModel sendViewModel;
+    private ExerciceViewModel galleryViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        sendViewModel =
-                ViewModelProviders.of(this).get(SendViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_send, container, false);
-        final TextView textView = root.findViewById(R.id.text_send);
-        sendViewModel.getText().observe(this, new Observer<String>() {
+        galleryViewModel =
+                ViewModelProviders.of(this).get(ExerciceViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_exercice, container, false);
+        final TextView textView = root.findViewById(R.id.text_gallery);
+        galleryViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

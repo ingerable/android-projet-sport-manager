@@ -1,18 +1,21 @@
-package com.example.sportmanager.Components;
+package com.example.sportmanager.Components.Fragments.LoginRegister;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
 import com.example.sportmanager.Database.AppDatabase;
+import com.example.sportmanager.MainActivity;
+import com.example.sportmanager.MyApplication;
 import com.example.sportmanager.R;
 import com.example.sportmanager.data.Domain.User;
 
@@ -22,30 +25,29 @@ import java.security.NoSuchAlgorithmException;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link RegisterFragment.OnFragmentInteractionListener} interface
+ * {@link LoginFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link RegisterFragment#newInstance} factory method to
+ * Use the {@link LoginFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class RegisterFragment extends Fragment {
+public class LoginFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
     private AppDatabase DB;
 
-    public RegisterFragment() {
+    public LoginFragment() {
         // Required empty public constructor
     }
 
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment RegisterFragment.
+     * @return A new instance of fragment LoginFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static RegisterFragment newInstance() {
-        RegisterFragment fragment = new RegisterFragment();
+    public static LoginFragment newInstance() {
+        LoginFragment fragment = new LoginFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -60,23 +62,22 @@ public class RegisterFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_register, container, false);
-
         DB = AppDatabase.getAppDatabase(getContext());
 
-        Button btnLogin = (Button) view.findViewById(R.id.register_button_login);
-        btnLogin.setOnClickListener(new View.OnClickListener() {
+        View view = inflater.inflate(R.layout.fragment_login, container, false);
+        Button registerButton = (Button) view.findViewById(R.id.login_button_register);
+        registerButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view)
             {
-                goToLogin();
+                getFragmentManager().beginTransaction().replace(R.id.main_linearLayout, RegisterFragment.newInstance()).commit();
             }
         });
 
-        Button btnRegister = (Button) view.findViewById(R.id.register_button_register);
-        btnRegister.setOnClickListener(new View.OnClickListener() {
+        Button loginButton = (Button) view.findViewById(R.id.login_button_login);
+        loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                registerUser(v);
+                loginUser();
             }
         });
         // Inflate the layout for this fragment
@@ -93,9 +94,9 @@ public class RegisterFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } //else {
 //            throw new RuntimeException(context.toString()
 //                    + " must implement OnFragmentInteractionListener");
 //        }
@@ -122,44 +123,30 @@ public class RegisterFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    private void registerUser(View v)
+    public void loginUser()
     {
-        String login = ((EditText) getView().findViewById(R.id.editText_username)).getText().toString();
-        String firstname = ((EditText) getView().findViewById(R.id.editText_firstname)).getText().toString();
-        String lastname = ((EditText) getView().findViewById(R.id.editText_lastname)).getText().toString();
-        String email = ((EditText) getView().findViewById(R.id.editText_email)).getText().toString();
-        String pass = ((EditText) getView().findViewById(R.id.editText_password)).getText().toString();
+        String login = ((TextView) getView().findViewById(R.id.login_editText_username)).getText().toString();
+        String pass = ((TextView) getView().findViewById(R.id.login_editText_pasword)).getText().toString();
 
-        User user = DB.userDao().findByLogin(login);
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte[] digest = md.digest(pass.getBytes());
+            pass = new String(digest);
 
-        if (user != null) {
-
-            //hide keyboard and display snackbar
-            Toast toast = Toast.makeText(getContext(), "User already existing", Toast.LENGTH_LONG);
-            toast.show();
-        } else {
-            try {
-                user = new User();
-                user.setLogin(login);
-                user.setFirstname(firstname);
-                user.setLastname(lastname);
-                user.setEmail(email);
-
-                MessageDigest md = MessageDigest.getInstance("SHA-256");
-                byte[] digest = md.digest(pass.getBytes());
-                user.setHashPass(new String(digest));
-                DB.userDao().insertAll(user);
-                Toast toast = Toast.makeText(getContext(), "User " + login + " sucessfully inserted", Toast.LENGTH_LONG);
+            User user = DB.userDao().findByLoginAndHashPass(pass, login);
+            if (user != null) {
+                //((MyApplication) this.getActivity().getApplication()).setConnectedUser(user);
+                MyApplication myapp = (MyApplication) this.getActivity().getApplication();
+                Intent intent = new Intent(this.getActivity(), MainActivity.class);
+                startActivity(intent);
+            } else {
+                Toast toast = Toast.makeText(getContext(), "Unknow informations", Toast.LENGTH_LONG);
                 toast.show();
-                goToLogin();
-            }catch (NoSuchAlgorithmException e) {
-                android.util.Log.d("bug", e.getMessage());
             }
-        }
-    }
+        } catch(NoSuchAlgorithmException e) {
 
-    public void goToLogin()
-    {
-        getFragmentManager().beginTransaction().replace(R.id.main_linearLayout, LoginFragment.newInstance()).commit();
+        }
+
+
     }
 }

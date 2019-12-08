@@ -1,4 +1,4 @@
-package com.example.sportmanager.ui.tools;
+package com.example.sportmanager.Components.Fragments.session;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.sportmanager.R;
 
-public class ToolsFragment extends Fragment {
+public class SessionFragment extends Fragment {
 
-    private ToolsViewModel toolsViewModel;
+    private SessionViewModel homeViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        toolsViewModel =
-                ViewModelProviders.of(this).get(ToolsViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_tools, container, false);
-        final TextView textView = root.findViewById(R.id.text_tools);
-        toolsViewModel.getText().observe(this, new Observer<String>() {
+        homeViewModel =
+                ViewModelProviders.of(this).get(SessionViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_session, container, false);
+        final TextView textView = root.findViewById(R.id.text_home);
+        homeViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

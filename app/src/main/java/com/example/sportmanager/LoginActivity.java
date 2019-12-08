@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.sportmanager.Components.LoginFragment;
+import com.example.sportmanager.Components.Fragments.LoginRegister.LoginFragment;
 import com.example.sportmanager.Database.AppDatabase;
 
 public class LoginActivity extends AppCompatActivity {
