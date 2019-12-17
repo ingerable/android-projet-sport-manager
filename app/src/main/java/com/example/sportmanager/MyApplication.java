@@ -2,6 +2,7 @@ package com.example.sportmanager;
 
 import android.app.Application;
 import com.example.sportmanager.data.Domain.User;
+import com.facebook.stetho.Stetho;
 
 public class MyApplication extends Application {
 
@@ -9,7 +10,7 @@ public class MyApplication extends Application {
 
     public void onCreate() {
         super.onCreate();
-        //Stetho.initializeWithDefaults(this);
+        Stetho.initializeWithDefaults(this);
     }
 
     public User getConnectedUser() {

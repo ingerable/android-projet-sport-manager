@@ -135,8 +135,8 @@ public class LoginFragment extends Fragment {
 
             User user = DB.userDao().findByLoginAndHashPass(pass, login);
             if (user != null) {
-                //((MyApplication) this.getActivity().getApplication()).setConnectedUser(user);
                 MyApplication myapp = (MyApplication) this.getActivity().getApplication();
+                myapp.setConnectedUser(user);
                 Intent intent = new Intent(this.getActivity(), MainActivity.class);
                 startActivity(intent);
             } else {

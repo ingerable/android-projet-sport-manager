@@ -43,6 +43,11 @@ public class TrainingProgramFragment extends Fragment {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
 
+                final FragmentTransaction ft = getFragmentManager().beginTransaction();
+                TrainingProgramCreateFragment newFramgent = new TrainingProgramCreateFragment();
+                ft.replace(R.id.nav_host_fragment, newFramgent);
+                ft.addToBackStack(null);
+                ft.commit();
             }
         });
 
