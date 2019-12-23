@@ -1,5 +1,6 @@
 package com.example.sportmanager.data.Domain;
 
+import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -11,7 +12,9 @@ public class TrainingProgram {
     private String name;
     private String description;
     private int difficulty;
-    private int creatorUserId;
+
+    @Embedded(prefix = "user_")
+    private User creatorUser;
 
     public int getId() {
         return id;
@@ -45,11 +48,11 @@ public class TrainingProgram {
         this.difficulty = difficulty;
     }
 
-    public int getCreatorUserId() {
-        return creatorUserId;
+    public User getCreatorUser() {
+        return creatorUser;
     }
 
-    public void setCreatorUserId(int creatorUserId) {
-        this.creatorUserId = creatorUserId;
+    public void setCreatorUser(User creatorUser) {
+        this.creatorUser = creatorUser;
     }
 }

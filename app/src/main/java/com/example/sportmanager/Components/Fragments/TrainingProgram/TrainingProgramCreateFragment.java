@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.example.sportmanager.Database.AppDatabase;
 import com.example.sportmanager.MyApplication;
 import com.example.sportmanager.R;
 import com.example.sportmanager.data.Domain.TrainingProgram;
+import com.example.sportmanager.data.Domain.User;
 
 public class TrainingProgramCreateFragment extends Fragment {
 
@@ -57,17 +59,23 @@ public class TrainingProgramCreateFragment extends Fragment {
                 String name = ((EditText)(v.getRootView().findViewById(R.id.trainingProgramCreate_editText_name))).getText().toString();
                 String description = ((EditText)(v.getRootView().findViewById(R.id.trainingProgramCreate_editText_description))).getText().toString();
                 int difficulty = ((RatingBar)(v.getRootView().findViewById(R.id.trainingProgramCreate_ratingBar_difficulty))).getNumStars();
-                int connectedUserId = ((MyApplication) getActivity().getApplication()).getConnectedUser().getId();
+                User connectedUser = ((MyApplication) getActivity().getApplication()).getConnectedUser();
 
                 TrainingProgram trainingProgram = new TrainingProgram();
                 trainingProgram.setDifficulty(difficulty);
                 trainingProgram.setDescription(description);
                 trainingProgram.setName(name);
-                trainingProgram.setCreatorUserId(connectedUserId);
+                trainingProgram.setCreatorUser(connectedUser);
 
 
                 AppDatabase db = AppDatabase.getAppDatabase(v.getContext());
                 db.TrainingProgramDao().insertAll(trainingProgram);
+
+                final FragmentTransaction ft = getFragmentManager().beginTransaction();
+                TrainingProgramFragment newFramgent = new TrainingProgramFragment();
+                ft.replace(R.id.nav_host_fragment, newFramgent);
+                ft.addToBackStack(null);
+                ft.commit();
             }
         });
 
