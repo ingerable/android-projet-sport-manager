@@ -1,5 +1,6 @@
 package com.example.sportmanager.Components.Fragments.TrainingProgram;
 
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -55,9 +56,10 @@ public class MyTrainingProgramRecyclerViewAdapter extends RecyclerView.Adapter<M
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final FragmentTransaction ft = ((MainActivity)context).getSupportFragmentManager().beginTransaction();
 
-                TrainingProgramDetailFragment newFramgent = new TrainingProgramDetailFragment();
+                final FragmentTransaction ft = ((MainActivity)context).getSupportFragmentManager().beginTransaction();
+                final TrainingProgramDetailFragment newFramgent = new TrainingProgramDetailFragment();
+                ((MainActivity)context).getSupportFragmentManager().popBackStackImmediate();
                 ft.replace(R.id.nav_host_fragment, newFramgent);
                 ft.addToBackStack(null);
                 ft.commit();

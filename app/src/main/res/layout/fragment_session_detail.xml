@@ -3,11 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Components.Fragments.home.HomeFragment">
+    tools:context=".Components.Fragments.session.SessionDetailFragment">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="fragment_home" />
+        android:text="fragment session detail" />
 
 </FrameLayout>

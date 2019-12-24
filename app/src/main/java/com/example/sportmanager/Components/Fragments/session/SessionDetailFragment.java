@@ -1,4 +1,4 @@
-package com.example.sportmanager.Components.Fragments.TrainingProgram;
+package com.example.sportmanager.Components.Fragments.session;
 
 import android.content.Context;
 import android.net.Uri;
@@ -9,31 +9,22 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.PopupMenu;
 
-import com.example.sportmanager.Database.AppDatabase;
 import com.example.sportmanager.R;
-import com.example.sportmanager.data.Domain.Session;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link TrainingProgramDetailFragment.OnFragmentInteractionListener} interface
+ * {@link SessionDetailFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link TrainingProgramDetailFragment#newInstance} factory method to
+ * Use the {@link SessionDetailFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TrainingProgramDetailFragment extends Fragment {
+public class SessionDetailFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    private List<Session> sessions = new ArrayList<>();
-
-    public TrainingProgramDetailFragment() {
+    public SessionDetailFragment() {
         // Required empty public constructor
     }
 
@@ -41,49 +32,29 @@ public class TrainingProgramDetailFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @return A new instance of fragment TrainingProgramDetailFragment.
+     * @return A new instance of fragment SessionDetailFragment.
      */
-    public static TrainingProgramDetailFragment newInstance(int trainingProgramId) {
-        TrainingProgramDetailFragment fragment = new TrainingProgramDetailFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt("trainingProgramId", trainingProgramId);
-        fragment.setArguments(bundle);
+    // TODO: Rename and change types and number of parameters
+    public static SessionDetailFragment newInstance(String param1, String param2) {
+        SessionDetailFragment fragment = new SessionDetailFragment();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            int trainingProgramId = getArguments().getInt("trainingProgramId");
-            this.sessions = AppDatabase.getAppDatabase(this.getContext()).sessionDao().getByTrainingProgramId(trainingProgramId);
-        }
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_training_program_detail, container, false);
-
-        final Button btnPopup = view.findViewById(R.id.trainingProgram_detail_btn_sessions);
-
-        btnPopup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                PopupMenu popupMenuSessions = new PopupMenu(v.getContext(), btnPopup);
-                for (Session s : sessions) {
-                    popupMenuSessions.getMenu().add(1, s.getId(), s.getOrder(), s.getName());
-                }
-                popupMenuSessions.show();
-            }
-        });
-        return view;
+        return inflater.inflate(R.layout.fragment_session_detail, container, false);
     }
 
+    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);

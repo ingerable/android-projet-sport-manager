@@ -9,6 +9,8 @@ public class Session {
     @PrimaryKey(autoGenerate = true)
     private int id;
     private String description;
+    private int order;
+    private String name = "";
 
     public int getId() {
         return id;
@@ -24,5 +26,21 @@ public class Session {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
