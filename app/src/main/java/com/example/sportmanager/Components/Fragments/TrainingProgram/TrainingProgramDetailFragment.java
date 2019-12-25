@@ -11,10 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.PopupMenu;
+import android.widget.RatingBar;
+import android.widget.TextView;
 
 import com.example.sportmanager.Database.AppDatabase;
 import com.example.sportmanager.R;
 import com.example.sportmanager.data.Domain.Session;
+import com.example.sportmanager.data.Domain.TrainingProgram;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +35,8 @@ public class TrainingProgramDetailFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     private List<Session> sessions = new ArrayList<>();
+
+    private TrainingProgram trainingProgram = null;
 
     public TrainingProgramDetailFragment() {
         // Required empty public constructor
@@ -58,6 +63,7 @@ public class TrainingProgramDetailFragment extends Fragment {
         if (getArguments() != null) {
             int trainingProgramId = getArguments().getInt("trainingProgramId");
             this.sessions = AppDatabase.getAppDatabase(this.getContext()).sessionDao().getByTrainingProgramId(trainingProgramId);
+            this.trainingProgram = AppDatabase.getAppDatabase(this.getContext()).TrainingProgramDao().findById(trainingProgramId);
         }
 
     }
@@ -81,6 +87,11 @@ public class TrainingProgramDetailFragment extends Fragment {
                 popupMenuSessions.show();
             }
         });
+
+        ((TextView)view.findViewById(R.id.trainingProgram_detail_txtView_title)).setText(this.trainingProgram.getName());
+        ((TextView)view.findViewById(R.id.trainingProgram_detail_editText_description)).setText(this.trainingProgram.getDescription());
+        ((RatingBar)view.findViewById(R.id.trainingProgram_detail_txtView_ratingBar)).setRating(trainingProgram.getDifficulty());
+
         return view;
     }
 

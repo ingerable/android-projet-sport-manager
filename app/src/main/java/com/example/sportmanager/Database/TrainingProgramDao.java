@@ -21,4 +21,7 @@ public interface TrainingProgramDao {
     @Delete
     void delete(TrainingProgram trainingProgram);
 
+    @Query("SELECT * FROM trainingprogram WHERE id = :id")
+    TrainingProgram findById(int id);
+
 }

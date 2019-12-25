@@ -52,13 +52,13 @@ public class MyTrainingProgramRecyclerViewAdapter extends RecyclerView.Adapter<M
 
         holder.mCreatorInfo.setText(user.getFirstname() + user.getLastname());
         holder.mContentView.setText(trainingProgram.getName());
+        holder.mItem = mValues.get(position);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 final FragmentTransaction ft = ((MainActivity)context).getSupportFragmentManager().beginTransaction();
-                final TrainingProgramDetailFragment newFramgent = new TrainingProgramDetailFragment();
+                final TrainingProgramDetailFragment newFramgent = TrainingProgramDetailFragment.newInstance(holder.mItem.getId());
                 ((MainActivity)context).getSupportFragmentManager().popBackStackImmediate();
                 ft.replace(R.id.nav_host_fragment, newFramgent);
                 ft.addToBackStack(null);

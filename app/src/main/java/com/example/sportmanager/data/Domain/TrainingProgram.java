@@ -11,7 +11,7 @@ public class TrainingProgram {
     private int id;
     private String name;
     private String description;
-    private int difficulty;
+    private float difficulty;
 
     @Embedded(prefix = "user_")
     private User creatorUser;
@@ -40,11 +40,11 @@ public class TrainingProgram {
         this.description = description;
     }
 
-    public int getDifficulty() {
+    public float getDifficulty() {
         return difficulty;
     }
 
-    public void setDifficulty(int difficulty) {
+    public void setDifficulty(float difficulty) {
         this.difficulty = difficulty;
     }
 
