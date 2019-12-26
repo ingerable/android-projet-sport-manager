@@ -1,18 +1,14 @@
 package com.example.sportmanager.Components.Fragments.TrainingProgram;
 
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.sportmanager.Components.Fragments.TrainingProgram.TrainingProgramFragment.OnListFragmentInteractionListener;
-import com.example.sportmanager.MainActivity;
+import com.example.sportmanager.OnListTrainingProgramFragmentInteractionListener;
 import com.example.sportmanager.R;
 import com.example.sportmanager.data.Domain.TrainingProgram;
 import com.example.sportmanager.data.Domain.User;
@@ -21,17 +17,17 @@ import java.util.List;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link TrainingProgram} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
+ * specified {@link OnListTrainingProgramFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
 public class MyTrainingProgramRecyclerViewAdapter extends RecyclerView.Adapter<MyTrainingProgramRecyclerViewAdapter.ViewHolder> {
 
     private final List<TrainingProgram> mValues;
-    private final OnListFragmentInteractionListener mListener;
+    private final OnListTrainingProgramFragmentInteractionListener mListener;
     private Context context;
 
 
-    public MyTrainingProgramRecyclerViewAdapter(Context context, List<TrainingProgram> items, OnListFragmentInteractionListener listener) {
+    public MyTrainingProgramRecyclerViewAdapter(Context context, List<TrainingProgram> items, OnListTrainingProgramFragmentInteractionListener listener) {
         this.context = context;
         mValues = items;
         mListener = listener;
@@ -57,12 +53,7 @@ public class MyTrainingProgramRecyclerViewAdapter extends RecyclerView.Adapter<M
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final FragmentTransaction ft = ((MainActivity)context).getSupportFragmentManager().beginTransaction();
-                final TrainingProgramDetailFragment newFramgent = TrainingProgramDetailFragment.newInstance(holder.mItem.getId());
-                ((MainActivity)context).getSupportFragmentManager().popBackStackImmediate();
-                ft.replace(R.id.nav_host_fragment, newFramgent);
-                ft.addToBackStack(null);
-                ft.commit();
+                    mListener.onTrainingProgramClicked(holder.mItem);
             }
         });
     }

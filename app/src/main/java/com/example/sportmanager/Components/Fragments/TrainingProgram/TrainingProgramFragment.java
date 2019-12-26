@@ -9,12 +9,12 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.sportmanager.Database.AppDatabase;
+import com.example.sportmanager.OnListTrainingProgramFragmentInteractionListener;
 import com.example.sportmanager.R;
 import com.example.sportmanager.data.Domain.TrainingProgram;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -22,16 +22,16 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 /**
  * A fragment representing a list of Items.
  * <p/>
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
+ * Activities containing this fragment MUST implement the {@link OnListTrainingProgramFragmentInteractionListener}
  * interface.
  */
-public class TrainingProgramFragment extends Fragment {
+public class TrainingProgramFragment extends Fragment implements OnListTrainingProgramFragmentInteractionListener {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
-    private OnListFragmentInteractionListener mListener;
+    private OnListTrainingProgramFragmentInteractionListener mListener;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -72,7 +72,7 @@ public class TrainingProgramFragment extends Fragment {
             public void onClick(View view) {
 
                 final FragmentTransaction ft = getFragmentManager().beginTransaction();
-                TrainingProgramCreateFragment newFramgent = new TrainingProgramCreateFragment();
+                TrainingProgramCreateFragment newFramgent = TrainingProgramCreateFragment.newInstance();
                 ft.replace(R.id.nav_host_fragment, newFramgent);
                 ft.addToBackStack(null);
                 ft.commit();
@@ -93,7 +93,7 @@ public class TrainingProgramFragment extends Fragment {
             AppDatabase db = AppDatabase.getAppDatabase(getContext());
 
 
-            recyclerView.setAdapter(new MyTrainingProgramRecyclerViewAdapter(getActivity(), db.TrainingProgramDao().getAll(), mListener));
+            recyclerView.setAdapter(new MyTrainingProgramRecyclerViewAdapter(getActivity(), db.TrainingProgramDao().getAll(), this));
         }
         return view;
     }
@@ -104,12 +104,6 @@ public class TrainingProgramFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-//        if (context instanceof OnListFragmentInteractionListener) {
-//            mListener = (OnListFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnListFragmentInteractionListener");
-//        }
     }
 
     @Override
@@ -118,19 +112,12 @@ public class TrainingProgramFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnListFragmentInteractionListener {
 
-        void onTrainingProgramClicked(TrainingProgram item);
+    public void onTrainingProgramClicked(TrainingProgram trainingProgram) {
+                final FragmentTransaction ft = getFragmentManager().beginTransaction();
+                final TrainingProgramDetailFragment newFramgent = TrainingProgramDetailFragment.newInstance(trainingProgram.getId());
+                ft.replace(R.id.nav_host_fragment, newFramgent);
+                ft.addToBackStack(null);
+                ft.commit();
     }
-
 }

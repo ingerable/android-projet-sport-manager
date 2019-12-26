@@ -90,7 +90,10 @@ public class TrainingProgramDetailFragment extends Fragment {
 
         ((TextView)view.findViewById(R.id.trainingProgram_detail_txtView_title)).setText(this.trainingProgram.getName());
         ((TextView)view.findViewById(R.id.trainingProgram_detail_editText_description)).setText(this.trainingProgram.getDescription());
-        ((RatingBar)view.findViewById(R.id.trainingProgram_detail_txtView_ratingBar)).setRating(trainingProgram.getDifficulty());
+        float f = trainingProgram.getDifficulty();
+        RatingBar rb = view.findViewById(R.id.trainingProgram_detail_txtView_ratingBar);
+        rb.setNumStars(10);
+        rb.setRating(f);
 
         return view;
     }
