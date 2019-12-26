@@ -21,7 +21,7 @@
         android:id="@+id/nav_session"
         android:name="com.example.sportmanager.Components.Fragments.session.SessionFragment"
         android:label="@string/session"
-        tools:layout="@layout/fragment_session" />
+        tools:layout="@layout/fragment_session_list" />
 
     <fragment
         android:id="@+id/nav_exercice"

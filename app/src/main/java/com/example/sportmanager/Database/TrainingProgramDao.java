@@ -4,6 +4,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.example.sportmanager.data.Domain.TrainingProgram;
 
@@ -23,5 +24,8 @@ public interface TrainingProgramDao {
 
     @Query("SELECT * FROM trainingprogram WHERE id = :id")
     TrainingProgram findById(int id);
+
+    @Update
+    void updateTrainingPrograms(TrainingProgram... trainingPrograms);
 
 }

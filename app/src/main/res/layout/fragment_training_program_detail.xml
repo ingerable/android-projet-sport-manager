@@ -41,7 +41,8 @@
         android:id="@+id/trainingProgram_detail_txtView_ratingBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:isIndicator="true" />
+        android:isIndicator="true"
+        android:numStars="10" />
 
     <Button
         android:id="@+id/trainingProgram_detail_btn_sessions"

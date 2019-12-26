@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.sportmanager.Database.AppDatabase;
+import com.example.sportmanager.MyApplication;
 import com.example.sportmanager.OnListTrainingProgramFragmentInteractionListener;
 import com.example.sportmanager.R;
 import com.example.sportmanager.data.Domain.TrainingProgram;
@@ -15,11 +17,6 @@ import com.example.sportmanager.data.Domain.User;
 
 import java.util.List;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link TrainingProgram} and makes a call to the
- * specified {@link OnListTrainingProgramFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
- */
 public class MyTrainingProgramRecyclerViewAdapter extends RecyclerView.Adapter<MyTrainingProgramRecyclerViewAdapter.ViewHolder> {
 
     private final List<TrainingProgram> mValues;
@@ -46,7 +43,14 @@ public class MyTrainingProgramRecyclerViewAdapter extends RecyclerView.Adapter<M
         TrainingProgram trainingProgram = mValues.get(position);
         User user = mValues.get(position).getCreatorUser();
 
-        holder.mCreatorInfo.setText(user.getFirstname() + user.getLastname());
+        String creatorInfo = user.getFirstname() + user.getLastname();
+
+        //creator of the training program is the connected user
+        if ( ((MyApplication)context.getApplicationContext()).getConnectedUser().getId() == mValues.get(position).getCreatorUser().getId()) {
+            creatorInfo += " (you) ";
+        }
+
+        holder.mCreatorInfo.setText(creatorInfo);
         holder.mContentView.setText(trainingProgram.getName());
         holder.mItem = mValues.get(position);
 
