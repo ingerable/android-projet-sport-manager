@@ -42,4 +42,7 @@
     <string name="btn_create">Create</string>
     <string name="program_detail_btn_steps">Steps</string>
     <string name="program_detail_btn_session">Sessions</string>
+    <string name="session_create_field_name">Name</string>
+    <string name="session_create_field_desc">Description</string>
+    <string name="session_create_editText_order">Order</string>
 </resources>

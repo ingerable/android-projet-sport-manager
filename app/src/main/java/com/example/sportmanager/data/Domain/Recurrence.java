@@ -1,6 +1,6 @@
 package com.example.sportmanager.data.Domain;
 
-import androidx.room.Entity;
+import java.sql.Time;
 
 public class Recurrence {
 
@@ -12,6 +12,7 @@ public class Recurrence {
     private boolean saturday;
     private boolean sunday;
     private int hour;
+    private int minutes;
 
     public boolean isMonday() {
         return monday;
@@ -75,5 +76,13 @@ public class Recurrence {
 
     public void setHour(int hour) {
         this.hour = hour;
+    }
+
+    public int getMinutes() {
+        return minutes;
+    }
+
+    public void setMinutes(int minutes) {
+        this.minutes = minutes;
     }
 }

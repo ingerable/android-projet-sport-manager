@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,12 +12,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Spinner;
 
 import com.example.sportmanager.Database.AppDatabase;
 import com.example.sportmanager.R;
 import com.example.sportmanager.data.Domain.Session;
-
-import java.util.List;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
 public class SessionFragment extends Fragment implements OnListSessionFragmentInteractionListener{
@@ -28,11 +29,8 @@ public class SessionFragment extends Fragment implements OnListSessionFragmentIn
     public SessionFragment() {
     }
 
-    public static SessionFragment newInstance(int columnCount) {
+    public static SessionFragment newInstance() {
         SessionFragment fragment = new SessionFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -49,6 +47,24 @@ public class SessionFragment extends Fragment implements OnListSessionFragmentIn
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_session_list, container, false);
+
+
+        FloatingActionButton fab = view.findViewById(R.id.session_fab_add);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                final FragmentTransaction ft = getFragmentManager().beginTransaction();
+                SessionCreateFragment newFramgent = SessionCreateFragment.newInstance();
+                ft.replace(R.id.nav_host_fragment, newFramgent);
+                ft.addToBackStack(null);
+                ft.commit();
+            }
+        });
+
+        Spinner trainingProgramSpinner = view.findViewById(R.id.session_create_spinner_trainingProgram);
+
 
         // Set the adapter
         if (view instanceof RecyclerView) {

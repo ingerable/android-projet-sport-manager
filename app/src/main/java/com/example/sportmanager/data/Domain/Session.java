@@ -1,5 +1,6 @@
 package com.example.sportmanager.data.Domain;
 
+import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -11,6 +12,9 @@ public class Session {
     private String description;
     private int order;
     private String name = "";
+
+    @Embedded
+    private Recurrence recurrence;
 
     public int getId() {
         return id;
@@ -42,5 +46,13 @@ public class Session {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Recurrence getRecurrence() {
+        return recurrence;
+    }
+
+    public void setRecurrence(Recurrence recurrence) {
+        this.recurrence = recurrence;
     }
 }
