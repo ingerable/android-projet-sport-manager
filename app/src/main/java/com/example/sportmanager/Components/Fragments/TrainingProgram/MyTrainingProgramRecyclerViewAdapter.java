@@ -8,9 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.sportmanager.Database.AppDatabase;
 import com.example.sportmanager.MyApplication;
-import com.example.sportmanager.OnListTrainingProgramFragmentInteractionListener;
 import com.example.sportmanager.R;
 import com.example.sportmanager.data.Domain.TrainingProgram;
 import com.example.sportmanager.data.Domain.User;
@@ -76,7 +74,7 @@ public class MyTrainingProgramRecyclerViewAdapter extends RecyclerView.Adapter<M
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mContentView = (TextView) view.findViewById(R.id.content);
+            mContentView = (TextView) view.findViewById(R.id.session_list_item_name);
             mCreatorInfo = (TextView) view.findViewById(R.id.trainingProgramList_txtView_creatorInfo);
         }
 

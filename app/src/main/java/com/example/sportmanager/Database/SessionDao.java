@@ -19,6 +19,9 @@ public interface SessionDao {
     @Query("SELECT * FROM session WHERE session.id = :trainingProgramId")
     List<Session> getByTrainingProgramId(int trainingProgramId);
 
+    @Query("SELECT * FROM session WHERE id = :id")
+    Session findById(int id);
+
     @Insert
     void insertAll(Session... sessions);
 

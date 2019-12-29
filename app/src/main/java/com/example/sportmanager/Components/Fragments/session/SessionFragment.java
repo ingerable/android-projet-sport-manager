@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Spinner;
 
+import com.example.sportmanager.Components.Fragments.TrainingProgram.TrainingProgramDetailFragment;
 import com.example.sportmanager.Database.AppDatabase;
 import com.example.sportmanager.R;
 import com.example.sportmanager.data.Domain.Session;
@@ -67,9 +68,10 @@ public class SessionFragment extends Fragment implements OnListSessionFragmentIn
 
 
         // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+        View recyclerViewList = view.findViewById(R.id.session_listView);
+        if (recyclerViewList instanceof RecyclerView) {
+            Context context = recyclerViewList.getContext();
+            RecyclerView recyclerView = (RecyclerView) recyclerViewList;
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
@@ -93,6 +95,10 @@ public class SessionFragment extends Fragment implements OnListSessionFragmentIn
 
     @Override
     public void onSessionClicked(Session session) {
-
+        final FragmentTransaction ft = getFragmentManager().beginTransaction();
+        final SessionDetailFragment newFragment = SessionDetailFragment.newInstance(session.getId());
+        ft.replace(R.id.nav_host_fragment, newFragment);
+        ft.addToBackStack(null);
+        ft.commit();
     }
 }

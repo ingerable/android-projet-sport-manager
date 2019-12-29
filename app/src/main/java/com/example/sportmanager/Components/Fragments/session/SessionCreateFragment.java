@@ -81,7 +81,7 @@ public class SessionCreateFragment extends Fragment {
                         trainingProgramList
                         );
         ((Spinner)view.findViewById(R.id.session_create_spinner_trainingProgram)).setAdapter(trainingProgramArrayAdapter);
-
+        ((TimePicker)view.findViewById(R.id.session_create_timePicker)).setIs24HourView(true);
         return view;
     }
 

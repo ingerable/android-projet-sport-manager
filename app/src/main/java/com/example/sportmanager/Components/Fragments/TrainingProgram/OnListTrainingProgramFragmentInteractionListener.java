@@ -1,4 +1,4 @@
-package com.example.sportmanager;
+package com.example.sportmanager.Components.Fragments.TrainingProgram;
 
 import com.example.sportmanager.data.Domain.TrainingProgram;
 

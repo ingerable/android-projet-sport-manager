@@ -31,8 +31,8 @@ public class MySessionRecyclerViewAdapter extends RecyclerView.Adapter<MySession
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).getId());
         holder.mContentView.setText(mValues.get(position).getName());
+        holder.mDescView.setText(mValues.get(position).getDescription());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,15 +53,15 @@ public class MySessionRecyclerViewAdapter extends RecyclerView.Adapter<MySession
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
         public final TextView mContentView;
+        public final TextView mDescView;
         public Session mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.item_number);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            mContentView = (TextView) view.findViewById(R.id.session_list_item_name);
+            mDescView = (TextView) view.findViewById(R.id.session_list_item_desc);
         }
 
         @Override

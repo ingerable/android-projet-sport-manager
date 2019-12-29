@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.sportmanager.Database.AppDatabase;
-import com.example.sportmanager.OnListTrainingProgramFragmentInteractionListener;
 import com.example.sportmanager.R;
 import com.example.sportmanager.data.Domain.TrainingProgram;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;

@@ -9,52 +9,53 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.TextView;
+import android.widget.TimePicker;
 
+import com.example.sportmanager.Database.AppDatabase;
 import com.example.sportmanager.R;
+import com.example.sportmanager.data.Domain.Session;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link SessionDetailFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link SessionDetailFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class SessionDetailFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+
+    private Session session;
 
     public SessionDetailFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment SessionDetailFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static SessionDetailFragment newInstance(String param1, String param2) {
+    public static SessionDetailFragment newInstance(int sessionId) {
         SessionDetailFragment fragment = new SessionDetailFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
+        Bundle bundle = new Bundle();
+        bundle.putInt("sessionId", sessionId);
+        fragment.setArguments(bundle);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            int sessionId = getArguments().getInt("sessionId");
+            this.session = AppDatabase.getAppDatabase(this.getContext()).sessionDao().findById(sessionId);
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_session_detail, container, false);
+        View view = inflater.inflate(R.layout.fragment_session_detail, container, false);
+        hydrateCheckbox(view);
+        ((TextView)view.findViewById(R.id.session_detail_desc)).setText(this.session.getDescription());
+        ((TextView)view.findViewById(R.id.session_detail_name)).setText(this.session.getName());
+        ((TextView)view.findViewById(R.id.session_detail_time)).setText(this.session.getRecurrence().getHour() + " : " + this.session.getRecurrence().getMinutes());
+
+        return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -64,12 +65,6 @@ public class SessionDetailFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
     }
 
     @Override
@@ -78,18 +73,19 @@ public class SessionDetailFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+    private void hydrateCheckbox(View view)
+    {
+        ((CheckBox)view.findViewById(R.id.session_detail_checkBox_friday)).setChecked(this.session.getRecurrence().isFriday());
+        ((CheckBox)view.findViewById(R.id.session_detail_checkBox_tuesday)).setChecked(this.session.getRecurrence().isTuesday());
+        ((CheckBox)view.findViewById(R.id.session_detail_checkBox_thursday)).setChecked(this.session.getRecurrence().isThursday());
+        ((CheckBox)view.findViewById(R.id.session_detail_checkBox_wednesday)).setChecked(this.session.getRecurrence().isWednesday());
+        ((CheckBox)view.findViewById(R.id.session_detail_checkBox_friday)).setChecked(this.session.getRecurrence().isFriday());
+        ((CheckBox)view.findViewById(R.id.session_detail_checkBox_saturday)).setChecked(this.session.getRecurrence().isSaturday());
+        ((CheckBox)view.findViewById(R.id.session_detail_checkBox_sunday)).setChecked(this.session.getRecurrence().isSunday());
+
+    }
+
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }
