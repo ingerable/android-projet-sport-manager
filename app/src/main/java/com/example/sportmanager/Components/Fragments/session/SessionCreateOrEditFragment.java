@@ -17,7 +17,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 
-import com.example.sportmanager.Components.Fragments.TrainingProgram.TrainingProgramFragment;
 import com.example.sportmanager.Database.AppDatabase;
 import com.example.sportmanager.MyApplication;
 import com.example.sportmanager.R;
@@ -25,25 +24,32 @@ import com.example.sportmanager.data.Domain.Recurrence;
 import com.example.sportmanager.data.Domain.Session;
 import com.example.sportmanager.data.Domain.TrainingProgram;
 
-import java.sql.Time;
 import java.util.List;
 
-public class SessionCreateFragment extends Fragment {
+public class SessionCreateOrEditFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public SessionCreateFragment() {
+    private Session session = null;
+
+    public SessionCreateOrEditFragment() {
         // Required empty public constructor
     }
 
-    public static SessionCreateFragment newInstance() {
-        SessionCreateFragment fragment = new SessionCreateFragment();
+    public static SessionCreateOrEditFragment newInstance(int sessionId) {
+        SessionCreateOrEditFragment fragment = new SessionCreateOrEditFragment();
+        Bundle args = new Bundle();
+        args.putInt("sessionId", sessionId);
+        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            session = AppDatabase.getAppDatabase(getContext()).sessionDao().findById(getArguments().getInt("sessionId"));
+        }
     }
 
     @Override
@@ -54,22 +60,43 @@ public class SessionCreateFragment extends Fragment {
 
         Button createBtn = view.findViewById(R.id.session_create_btn_create);
 
-        createBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Session session = new Session();
-                session.setRecurrence(new Recurrence());
-                session = hydrateSession(session, view);
+        //we are editing
+        if (this.session != null) {
+            createBtn.setText("SAVE");
+            this.hydrateView(session, view);
+            createBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                AppDatabase.getAppDatabase(getContext()).sessionDao().insertAll(session);
+                    session = hydrateSession(session, view);
+                    AppDatabase.getAppDatabase(getContext()).sessionDao().updateSessions(session);
 
-                final FragmentTransaction ft = getFragmentManager().beginTransaction();
-                SessionFragment newFramgent = SessionFragment.newInstance();
-                ft.replace(R.id.nav_host_fragment, newFramgent);
-                ft.addToBackStack(null);
-                ft.commit();
-            }
-        });
+                    final FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    SessionFragment newFramgent = SessionFragment.newInstance();
+                    ft.replace(R.id.nav_host_fragment, newFramgent);
+                    ft.addToBackStack(null);
+                    ft.commit();
+                }
+            });
+        } else { // we are creating
+            createBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Session session = new Session();
+                    session.setRecurrence(new Recurrence());
+                    session = hydrateSession(session, view);
+
+                    AppDatabase.getAppDatabase(getContext()).sessionDao().insertAll(session);
+
+                    final FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    SessionFragment newFramgent = SessionFragment.newInstance();
+                    ft.replace(R.id.nav_host_fragment, newFramgent);
+                    ft.addToBackStack(null);
+                    ft.commit();
+                }
+            });
+        }
+
 
         //populate training programs spinner with connected user's training program
         int connectedUserId = ((MyApplication) getActivity().getApplication()).getConnectedUser().getId();
@@ -117,9 +144,8 @@ public class SessionCreateFragment extends Fragment {
         session.setOrder(order);
 
         session.getRecurrence().setMonday(((CheckBox)view.findViewById(R.id.session_create_checkBox_monday)).isChecked());
-        session.getRecurrence().setThursday(((CheckBox)view.findViewById(R.id.session_create_checkBox_thursday)).isChecked());
+        session.getRecurrence().setTuesday(((CheckBox)view.findViewById(R.id.session_create_checkBox_tuesday)).isChecked());
         session.getRecurrence().setWednesday(((CheckBox)view.findViewById(R.id.session_create_checkBox_wednesday)).isChecked());
-        session.getRecurrence().setFriday(((CheckBox)view.findViewById(R.id.session_create_checkBox_friday)).isChecked());
         session.getRecurrence().setThursday(((CheckBox)view.findViewById(R.id.session_create_checkBox_thursday)).isChecked());
         session.getRecurrence().setFriday(((CheckBox)view.findViewById(R.id.session_create_checkBox_friday)).isChecked());
         session.getRecurrence().setSaturday(((CheckBox)view.findViewById(R.id.session_create_checkBox_saturday)).isChecked());
@@ -130,4 +156,23 @@ public class SessionCreateFragment extends Fragment {
 
         return session;
     }
+
+    private void hydrateView(Session session, View view)
+    {
+        ((EditText)view.findViewById(R.id.session_create_editText_name)).setText(session.getName());
+        ((EditText)view.findViewById(R.id.session_create_editText_desc)).setText(session.getDescription());
+        ((EditText)view.findViewById(R.id.session_create_editText_order)).setText(Integer.toString(session.getOrder()));
+        ((CheckBox)view.findViewById(R.id.session_create_checkBox_monday)).setChecked(session.getRecurrence().isMonday());
+        ((CheckBox)view.findViewById(R.id.session_create_checkBox_tuesday)).setChecked(session.getRecurrence().isTuesday());
+        ((CheckBox)view.findViewById(R.id.session_create_checkBox_wednesday)).setChecked(session.getRecurrence().isWednesday());
+        ((CheckBox)view.findViewById(R.id.session_create_checkBox_thursday)).setChecked(session.getRecurrence().isThursday());
+        ((CheckBox)view.findViewById(R.id.session_create_checkBox_friday)).setChecked(session.getRecurrence().isFriday());
+        ((CheckBox)view.findViewById(R.id.session_create_checkBox_saturday)).setChecked(session.getRecurrence().isSaturday());
+        ((CheckBox)view.findViewById(R.id.session_create_checkBox_sunday)).setChecked(session.getRecurrence().isSunday());
+        TimePicker tp = view.findViewById(R.id.session_create_timePicker);
+        tp.setHour(session.getRecurrence().getHour());
+        tp.setMinute(session.getRecurrence().getMinutes());
+
+    }
+
 }

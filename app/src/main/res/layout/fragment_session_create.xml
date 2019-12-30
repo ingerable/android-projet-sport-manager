@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context=".Components.Fragments.session.SessionCreateFragment">
+    tools:context=".Components.Fragments.session.SessionCreateOrEditFragment">
 
     <TextView
         android:id="@+id/textView18"

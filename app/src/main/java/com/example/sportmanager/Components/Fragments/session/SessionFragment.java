@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Spinner;
 
-import com.example.sportmanager.Components.Fragments.TrainingProgram.TrainingProgramDetailFragment;
 import com.example.sportmanager.Database.AppDatabase;
 import com.example.sportmanager.R;
 import com.example.sportmanager.data.Domain.Session;
@@ -57,8 +56,8 @@ public class SessionFragment extends Fragment implements OnListSessionFragmentIn
             public void onClick(View view) {
 
                 final FragmentTransaction ft = getFragmentManager().beginTransaction();
-                SessionCreateFragment newFramgent = SessionCreateFragment.newInstance();
-                ft.replace(R.id.nav_host_fragment, newFramgent);
+                SessionCreateOrEditFragment newFragment = new SessionCreateOrEditFragment(); //not using static method because here, we do not pass a session id (editing). We want to create a session
+                ft.replace(R.id.nav_host_fragment, newFragment);
                 ft.addToBackStack(null);
                 ft.commit();
             }

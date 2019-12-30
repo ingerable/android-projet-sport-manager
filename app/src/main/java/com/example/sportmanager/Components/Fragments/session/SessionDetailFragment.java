@@ -5,13 +5,14 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
 import com.example.sportmanager.Database.AppDatabase;
 import com.example.sportmanager.R;
@@ -53,6 +54,33 @@ public class SessionDetailFragment extends Fragment {
         ((TextView)view.findViewById(R.id.session_detail_name)).setText(this.session.getName());
         ((TextView)view.findViewById(R.id.session_detail_time)).setText(this.session.getRecurrence().getHour() + " : " + this.session.getRecurrence().getMinutes());
 
+        Button editBtn = view.findViewById(R.id.session_detail_btn_edit);
+        Button deleteBtn = view.findViewById(R.id.session_detail_btn_delete);
+
+        editBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                final FragmentTransaction ft = getFragmentManager().beginTransaction();
+                SessionCreateOrEditFragment newFragment = SessionCreateOrEditFragment.newInstance(session.getId());
+                ft.replace(R.id.nav_host_fragment, newFragment);
+                ft.addToBackStack(null);
+                ft.commit();
+            }
+        });
+
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AppDatabase.getAppDatabase(getContext()).sessionDao().delete(session);
+
+                final FragmentTransaction ft = getFragmentManager().beginTransaction();
+                SessionFragment newFragment = SessionFragment.newInstance();
+                ft.replace(R.id.nav_host_fragment, newFragment);
+                ft.addToBackStack(null);
+                ft.commit();
+            }
+        });
+
         return view;
     }
 
@@ -75,7 +103,7 @@ public class SessionDetailFragment extends Fragment {
 
     private void hydrateCheckbox(View view)
     {
-        ((CheckBox)view.findViewById(R.id.session_detail_checkBox_friday)).setChecked(this.session.getRecurrence().isFriday());
+        ((CheckBox)view.findViewById(R.id.session_detail_checkBox_monday)).setChecked(this.session.getRecurrence().isMonday());
         ((CheckBox)view.findViewById(R.id.session_detail_checkBox_tuesday)).setChecked(this.session.getRecurrence().isTuesday());
         ((CheckBox)view.findViewById(R.id.session_detail_checkBox_thursday)).setChecked(this.session.getRecurrence().isThursday());
         ((CheckBox)view.findViewById(R.id.session_detail_checkBox_wednesday)).setChecked(this.session.getRecurrence().isWednesday());

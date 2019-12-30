@@ -27,7 +27,7 @@
         android:id="@+id/nav_exercice"
         android:name="com.example.sportmanager.Components.Fragments.exercice.ExerciceFragment"
         android:label="@string/exercice"
-        tools:layout="@layout/fragment_exercice" />
+        tools:layout="@layout/fragment_exercice_list" />
 
     <fragment
         android:id="@+id/nav_step"

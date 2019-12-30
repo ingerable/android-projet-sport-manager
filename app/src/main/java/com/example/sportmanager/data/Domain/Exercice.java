@@ -10,15 +10,14 @@ public class Exercice {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
-    @Embedded
-    private Recurrence recurrence;
     private String name;
     private String description;
     private int seriesNumber;
     private int repetitionNumber;
     private int effortTimeSeconds;
     private int restTimeSeconds;
-    private int difficulty;
+    private float difficulty;
+    private int order;
 
     public int getId() {
         return id;
@@ -76,19 +75,19 @@ public class Exercice {
         this.restTimeSeconds = restTimeSeconds;
     }
 
-    public int getDifficulty() {
+    public float getDifficulty() {
         return difficulty;
     }
 
-    public void setDifficulty(int difficulty) {
+    public void setDifficulty(float difficulty) {
         this.difficulty = difficulty;
     }
 
-    public Recurrence getRecurrence() {
-        return recurrence;
+    public int getOrder() {
+        return order;
     }
 
-    public void setRecurrence(Recurrence recurrence) {
-        this.recurrence = recurrence;
+    public void setOrder(int order) {
+        this.order = order;
     }
 }

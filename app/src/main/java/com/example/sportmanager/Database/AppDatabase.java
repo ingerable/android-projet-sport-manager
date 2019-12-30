@@ -31,6 +31,8 @@ public abstract  class AppDatabase extends RoomDatabase {
 
     public abstract SessionDao sessionDao();
 
+    public abstract ExerciceDao exerciceDao();
+
     public static AppDatabase getAppDatabase(Context context)
     {
         if (INSTANCE == null) { //@TODO creer classe async pour les requetes DB
