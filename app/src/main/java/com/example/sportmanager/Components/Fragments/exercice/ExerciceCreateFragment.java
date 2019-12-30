@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +14,12 @@ import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.example.sportmanager.Components.Fragments.TrainingProgram.TrainingProgramFragment;
 import com.example.sportmanager.Database.AppDatabase;
 import com.example.sportmanager.R;
 import com.example.sportmanager.data.Domain.Exercice;
+
+import org.w3c.dom.Text;
 
 public class ExerciceCreateFragment extends Fragment {
 
@@ -47,18 +51,39 @@ public class ExerciceCreateFragment extends Fragment {
         Button saveBtn = (Button) view.findViewById(R.id.exercice_create_btn_save);
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
 
                 Exercice exercice = new Exercice();
-                exercice.setName(((TextView)view.findViewById(R.id.exercice_create_editText_name)).getText().toString());
-                exercice.setDescription(((TextView)view.findViewById(R.id.exercice_create_editText_description)).getText().toString());
-                exercice.setSeriesNumber(Integer.parseInt(((TextView)view.findViewById(R.id.exercice_create_editText_series)).getText().toString()));
-                exercice.setRepetitionNumber(Integer.parseInt(((TextView)view.findViewById(R.id.exercice_create_editText_repetitions)).getText().toString()));
-                exercice.setEffortTimeSeconds(Integer.parseInt(((TextView)view.findViewById(R.id.exercice_create_editText_effortTime)).getText().toString()));
-                exercice.setRestTimeSeconds(Integer.parseInt(((TextView)view.findViewById(R.id.exercice_create_editText_restTime)).getText().toString()));
-                exercice.setDifficulty(((RatingBar)view.findViewById(R.id.exercice_ratingBar_difficulty)).getRating());
+
+                exercice.setName(((TextView)v.getRootView().findViewById(R.id.exercice_create_editText_name)).getText().toString());
+                exercice.setDescription(((TextView)v.getRootView().findViewById(R.id.exercice_create_editText_description)).getText().toString());
+                String seriesNumber = ((TextView)v.getRootView().findViewById(R.id.exercice_create_editText_series)).getText().toString();
+                String repetitionNumber = ((TextView)v.getRootView().findViewById(R.id.exercice_create_editText_repetitions)).getText().toString();
+                String effortTime =  ((TextView)v.getRootView().findViewById(R.id.exercice_create_editText_effortTime)).getText().toString();
+                String restTime = ((TextView)v.getRootView().findViewById(R.id.exercice_create_editText_restTime)).getText().toString();
+
+                if (!seriesNumber.isEmpty()) {
+                    exercice.setSeriesNumber(Integer.parseInt(seriesNumber));
+                }
+                if (!repetitionNumber.isEmpty()) {
+                    exercice.setRepetitionNumber(Integer.parseInt(repetitionNumber));
+                }
+                if (!effortTime.isEmpty()) {
+                    exercice.setEffortTimeSeconds(Integer.parseInt(effortTime));
+                }
+                if (!restTime.isEmpty()) {
+                    exercice.setRestTimeSeconds(Integer.parseInt(restTime));
+                }
+
+                exercice.setDifficulty(((RatingBar)v.getRootView().findViewById(R.id.exercice_ratingBar_difficulty)).getRating());
 
                 AppDatabase.getAppDatabase(getContext()).exerciceDao().insertAll(exercice);
+
+                final FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ExerciceFragment newFragment = ExerciceFragment.newInstance();
+                ft.replace(R.id.nav_host_fragment, newFragment);
+                ft.addToBackStack(null);
+                ft.commit();
             }
         });
 

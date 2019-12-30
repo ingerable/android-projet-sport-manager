@@ -8,22 +8,17 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.sportmanager.Components.Fragments.exercice.ExerciceFragment.OnListFragmentInteractionListener;
-import com.example.sportmanager.Components.Fragments.exercice.dummy.DummyContent.DummyItem;
 import com.example.sportmanager.R;
+import com.example.sportmanager.data.Domain.Exercice;
 
 import java.util.List;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
- */
 public class MyExerciceRecyclerViewAdapter extends RecyclerView.Adapter<MyExerciceRecyclerViewAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
+    private final List<Exercice> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public MyExerciceRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
+    public MyExerciceRecyclerViewAdapter(List<Exercice> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -38,8 +33,7 @@ public class MyExerciceRecyclerViewAdapter extends RecyclerView.Adapter<MyExerci
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        holder.mContentView.setText(mValues.get(position).getName());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,14 +54,12 @@ public class MyExerciceRecyclerViewAdapter extends RecyclerView.Adapter<MyExerci
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
         public final TextView mContentView;
-        public DummyItem mItem;
+        public Exercice mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.item_number);
             mContentView = (TextView) view.findViewById(R.id.content);
         }
 

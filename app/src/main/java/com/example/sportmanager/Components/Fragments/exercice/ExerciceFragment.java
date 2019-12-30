@@ -13,15 +13,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.sportmanager.Database.AppDatabase;
 import com.example.sportmanager.R;
-import com.example.sportmanager.Components.Fragments.exercice.dummy.DummyContent;
-import com.example.sportmanager.Components.Fragments.exercice.dummy.DummyContent.DummyItem;
+import com.example.sportmanager.data.Domain.Exercice;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class ExerciceFragment extends Fragment {
 
-
-    private static final String ARG_COLUMN_COUNT = "column-count";
 
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
@@ -31,21 +29,14 @@ public class ExerciceFragment extends Fragment {
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static ExerciceFragment newInstance(int columnCount) {
+    public static ExerciceFragment newInstance() {
         ExerciceFragment fragment = new ExerciceFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
-        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
-        }
     }
 
     @Override
@@ -67,15 +58,16 @@ public class ExerciceFragment extends Fragment {
             }
         });
 
-        if (view instanceof RecyclerView) {
+        View listView = view.findViewById(R.id.exercice_list);
+        if (listView instanceof RecyclerView) {
             Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+            RecyclerView recyclerView = (RecyclerView) listView;
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyExerciceRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+            recyclerView.setAdapter(new MyExerciceRecyclerViewAdapter(AppDatabase.getAppDatabase(getContext()).exerciceDao().getAll(), mListener));
         }
         return view;
     }
@@ -93,6 +85,6 @@ public class ExerciceFragment extends Fragment {
     }
 
     public interface OnListFragmentInteractionListener {
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(Exercice item);
     }
 }
