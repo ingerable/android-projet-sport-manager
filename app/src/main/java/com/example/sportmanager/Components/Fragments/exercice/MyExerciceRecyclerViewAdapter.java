@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.sportmanager.Components.Fragments.exercice.ExerciceFragment.OnListFragmentInteractionListener;
 import com.example.sportmanager.R;
 import com.example.sportmanager.data.Domain.Exercice;
 
@@ -16,9 +15,9 @@ import java.util.List;
 public class MyExerciceRecyclerViewAdapter extends RecyclerView.Adapter<MyExerciceRecyclerViewAdapter.ViewHolder> {
 
     private final List<Exercice> mValues;
-    private final OnListFragmentInteractionListener mListener;
+    private final OnListExerciceFragmentInteractionListener mListener;
 
-    public MyExerciceRecyclerViewAdapter(List<Exercice> items, OnListFragmentInteractionListener listener) {
+    public MyExerciceRecyclerViewAdapter(List<Exercice> items, OnListExerciceFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -39,9 +38,7 @@ public class MyExerciceRecyclerViewAdapter extends RecyclerView.Adapter<MyExerci
             @Override
             public void onClick(View v) {
                 if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
+                    mListener.onExerciceClicked(holder.mItem);
                 }
             }
         });

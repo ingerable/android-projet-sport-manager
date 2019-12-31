@@ -18,11 +18,10 @@ import com.example.sportmanager.R;
 import com.example.sportmanager.data.Domain.Exercice;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class ExerciceFragment extends Fragment {
+public class ExerciceFragment extends Fragment implements OnListExerciceFragmentInteractionListener{
 
 
     private int mColumnCount = 1;
-    private OnListFragmentInteractionListener mListener;
 
     public ExerciceFragment() {
     }
@@ -51,7 +50,7 @@ public class ExerciceFragment extends Fragment {
             public void onClick(View view) {
 
                 final FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ExerciceCreateFragment newFramgent = ExerciceCreateFragment.newInstance();
+                ExerciceCreateOrEditFragment newFramgent = new ExerciceCreateOrEditFragment();
                 ft.replace(R.id.nav_host_fragment, newFramgent);
                 ft.addToBackStack(null);
                 ft.commit();
@@ -67,7 +66,7 @@ public class ExerciceFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyExerciceRecyclerViewAdapter(AppDatabase.getAppDatabase(getContext()).exerciceDao().getAll(), mListener));
+            recyclerView.setAdapter(new MyExerciceRecyclerViewAdapter(AppDatabase.getAppDatabase(getContext()).exerciceDao().getAll(), this));
         }
         return view;
     }
@@ -81,10 +80,15 @@ public class ExerciceFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
 
-    public interface OnListFragmentInteractionListener {
-        void onListFragmentInteraction(Exercice item);
+    @Override
+    public void onExerciceClicked(Exercice exercice) {
+        final FragmentTransaction ft = getFragmentManager().beginTransaction();
+        final ExerciceDetailFragment newFragment = ExerciceDetailFragment.newInstance(exercice.getId());
+        ft.replace(R.id.nav_host_fragment, newFragment);
+        ft.addToBackStack(null);
+        ft.commit();
     }
+
 }
