@@ -3,11 +3,8 @@ package com.example.sportmanager.data.Domain;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity
+@Entity(primaryKeys = {"exerciceId", "stepPosition"})
 public class Step {
-
-    @PrimaryKey(autoGenerate = true)
-    private int id;
 
     private String imagePath;
     private String imageUrl;
@@ -16,14 +13,6 @@ public class Step {
     private String description;
     private int stepPosition;
     private int exerciceId;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getImagePath() {
         return imagePath;

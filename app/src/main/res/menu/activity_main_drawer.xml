@@ -16,10 +16,6 @@
             android:id="@+id/nav_exercice"
             android:icon="@drawable/ic_menu_exercice"
             android:title="@string/menu_exercice" />
-        <item
-            android:id="@+id/nav_step"
-            android:icon="@drawable/ic_menu_step"
-            android:title="@string/menu_step" />
     </group>
 
 </menu>

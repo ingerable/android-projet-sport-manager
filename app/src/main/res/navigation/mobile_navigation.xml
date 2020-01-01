@@ -28,10 +28,4 @@
         android:name="com.example.sportmanager.Components.Fragments.exercice.ExerciceFragment"
         android:label="@string/exercice"
         tools:layout="@layout/fragment_exercice_list" />
-
-    <fragment
-        android:id="@+id/nav_step"
-        android:name="com.example.sportmanager.Components.Fragments.step.StepFragment"
-        android:label="@string/step"
-        tools:layout="@layout/fragment_step" />
 </navigation>

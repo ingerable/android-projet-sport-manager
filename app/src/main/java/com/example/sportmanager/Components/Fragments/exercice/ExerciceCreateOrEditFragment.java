@@ -55,7 +55,7 @@ public class ExerciceCreateOrEditFragment extends Fragment {
 
         // edit
         if (exercice != null) {
-            saveBtn.setText("SAUVEGARDER");
+            saveBtn.setText("SAVE");
             hydrateFields(view);
             saveBtn.setOnClickListener(new View.OnClickListener() {
                 @Override

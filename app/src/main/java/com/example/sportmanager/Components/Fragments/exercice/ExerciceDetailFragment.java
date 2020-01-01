@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.example.sportmanager.Components.Fragments.step.StepCreateFragment;
 import com.example.sportmanager.Database.AppDatabase;
 import com.example.sportmanager.R;
 import com.example.sportmanager.data.Domain.Exercice;
@@ -55,6 +56,7 @@ public class ExerciceDetailFragment extends Fragment {
 
         Button deleteButton = view.findViewById(R.id.exercice_detail_btn_delete);
         Button editButton = view.findViewById(R.id.exercice_detail_btn_edit);
+        Button addStepButton = view.findViewById(R.id.step_create_btn_addStep);
 
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +75,18 @@ public class ExerciceDetailFragment extends Fragment {
             public void onClick(View v) {
                 final FragmentTransaction ft = getFragmentManager().beginTransaction();
                 final ExerciceCreateOrEditFragment newFragment = ExerciceCreateOrEditFragment.newInstance(exercice.getId());
+                ft.replace(R.id.nav_host_fragment, newFragment);
+                ft.addToBackStack(null);
+                ft.commit();
+            }
+        });
+
+        addStepButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                final FragmentTransaction ft = getFragmentManager().beginTransaction();
+                final StepCreateFragment newFragment = StepCreateFragment.newInstance(exercice.getId());
                 ft.replace(R.id.nav_host_fragment, newFragment);
                 ft.addToBackStack(null);
                 ft.commit();
