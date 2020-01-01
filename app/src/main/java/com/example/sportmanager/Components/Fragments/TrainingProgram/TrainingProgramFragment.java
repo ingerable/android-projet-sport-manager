@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.sportmanager.Database.AppDatabase;
+import com.example.sportmanager.MyApplication;
 import com.example.sportmanager.R;
 import com.example.sportmanager.data.Domain.TrainingProgram;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -63,7 +64,7 @@ public class TrainingProgramFragment extends Fragment implements OnListTrainingP
             public void onClick(View view) {
 
                 final FragmentTransaction ft = getFragmentManager().beginTransaction();
-                TrainingProgramCreateFragment newFramgent = TrainingProgramCreateFragment.newInstance();
+                TrainingProgramCreateOrEditFragment newFramgent = new TrainingProgramCreateOrEditFragment();
                 ft.replace(R.id.nav_host_fragment, newFramgent);
                 ft.addToBackStack(null);
                 ft.commit();
@@ -83,8 +84,8 @@ public class TrainingProgramFragment extends Fragment implements OnListTrainingP
             }
             AppDatabase db = AppDatabase.getAppDatabase(getContext());
 
-
-            recyclerView.setAdapter(new MyTrainingProgramRecyclerViewAdapter(getActivity(), db.TrainingProgramDao().getAll(), this));
+            int connectedUserId = ((MyApplication)getActivity().getApplication()).getConnectedUser().getId();
+            recyclerView.setAdapter(new MyTrainingProgramRecyclerViewAdapter(getActivity(), db.TrainingProgramDao().getNotUserId(connectedUserId), this));
         }
         return view;
     }
@@ -110,5 +111,17 @@ public class TrainingProgramFragment extends Fragment implements OnListTrainingP
                 ft.replace(R.id.nav_host_fragment, newFramgent);
                 ft.addToBackStack(null);
                 ft.commit();
+    }
+
+    public static String getArgColumnCount() {
+        return ARG_COLUMN_COUNT;
+    }
+
+    public int getmColumnCount() {
+        return mColumnCount;
+    }
+
+    public void setmColumnCount(int mColumnCount) {
+        this.mColumnCount = mColumnCount;
     }
 }

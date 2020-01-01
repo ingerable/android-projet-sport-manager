@@ -8,11 +8,11 @@ import androidx.room.RoomDatabase;
 
 import com.example.sportmanager.data.Domain.Exercice;
 import com.example.sportmanager.data.Domain.Muscle;
-import com.example.sportmanager.data.Domain.Recurrence;
 import com.example.sportmanager.data.Domain.Session;
 import com.example.sportmanager.data.Domain.Step;
 import com.example.sportmanager.data.Domain.TrainingProgram;
 import com.example.sportmanager.data.Domain.User;
+import com.example.sportmanager.data.Domain.UserFollowedTrainingsProgram;
 
 @Database(entities = {
         Exercice.class,
@@ -20,7 +20,8 @@ import com.example.sportmanager.data.Domain.User;
         Session.class,
         Step.class,
         TrainingProgram.class,
-        User.class,}, version = 1)
+        User.class,
+        UserFollowedTrainingsProgram.class}, version = 1)
 public abstract  class AppDatabase extends RoomDatabase {
 
     private static AppDatabase INSTANCE;
@@ -34,6 +35,8 @@ public abstract  class AppDatabase extends RoomDatabase {
     public abstract ExerciceDao exerciceDao();
 
     public abstract StepDao stepDao();
+
+    public abstract UserFollowedTrainingsProgramDao userFollowedTrainingsProgramDao();
 
     public static AppDatabase getAppDatabase(Context context)
     {

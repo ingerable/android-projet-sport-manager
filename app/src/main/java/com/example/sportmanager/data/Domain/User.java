@@ -12,9 +12,12 @@ public class User {
     private String firstname;
     private String lastname;
     private String email;
+    private float weight;
     private int age;
     private String hashPass;
     private String pathImage;
+    private int favoriteTrainingProgramId;
+
 
     public int getId() {
         return id;
@@ -78,5 +81,21 @@ public class User {
 
     public void setPathImage(String pathImage) {
         this.pathImage = pathImage;
+    }
+
+    public float getWeight() {
+        return weight;
+    }
+
+    public void setWeight(float weight) {
+        this.weight = weight;
+    }
+
+    public int getFavoriteTrainingProgramId() {
+        return favoriteTrainingProgramId;
+    }
+
+    public void setFavoriteTrainingProgramId(int favoriteTrainingProgramId) {
+        this.favoriteTrainingProgramId = favoriteTrainingProgramId;
     }
 }

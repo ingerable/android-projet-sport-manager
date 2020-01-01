@@ -46,4 +46,5 @@
     <string name="session_create_field_desc">Description</string>
     <string name="session_create_editText_order">Order</string>
     <string name="choose_file">Choose file</string>
+    <string name="menu_myTrainingProgram">My trainings program</string>
 </resources>

@@ -18,6 +18,12 @@
         tools:layout="@layout/fragment_training_program" />
 
     <fragment
+        android:id="@+id/nav_myTrainingProgram"
+        android:name="com.example.sportmanager.Components.Fragments.TrainingProgram.MyTrainingProgramFragment"
+        android:label="@string/trainingProgram"
+        tools:layout="@layout/fragment_training_program" />
+
+    <fragment
         android:id="@+id/nav_session"
         android:name="com.example.sportmanager.Components.Fragments.session.SessionFragment"
         android:label="@string/session"

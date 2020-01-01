@@ -28,6 +28,9 @@ public interface TrainingProgramDao {
     @Query("SELECT * FROM trainingprogram WHERE user_id = :userId")
     List<TrainingProgram> getByUserId(int userId);
 
+    @Query("SELECT * FROM trainingprogram WHERE user_id != :userId")
+    List<TrainingProgram> getNotUserId(int userId);
+
     @Update
     void updateTrainingPrograms(TrainingProgram... trainingPrograms);
 
