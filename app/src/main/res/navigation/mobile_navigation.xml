@@ -34,4 +34,10 @@
         android:name="com.example.sportmanager.Components.Fragments.exercice.ExerciceFragment"
         android:label="@string/exercice"
         tools:layout="@layout/fragment_exercice_list" />
+
+    <fragment
+        android:id="@+id/nav_profile"
+        android:name="com.example.sportmanager.Components.Fragments.profile.ProfileFragment"
+        android:label="@string/menu_profile"
+        tools:layout="@layout/fragment_profile" />
 </navigation>
