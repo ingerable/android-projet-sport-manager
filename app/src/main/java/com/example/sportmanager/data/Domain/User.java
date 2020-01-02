@@ -1,5 +1,6 @@
 package com.example.sportmanager.data.Domain;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -97,5 +98,11 @@ public class User {
 
     public void setFavoriteTrainingProgramId(int favoriteTrainingProgramId) {
         this.favoriteTrainingProgramId = favoriteTrainingProgramId;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return this.getFirstname() + " " + this.getLastname();
     }
 }
