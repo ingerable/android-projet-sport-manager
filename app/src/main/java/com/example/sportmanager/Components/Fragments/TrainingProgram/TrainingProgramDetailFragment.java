@@ -6,19 +6,27 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.RatingBar;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.example.sportmanager.Components.Fragments.session.MySessionRecyclerViewAdapter;
+import com.example.sportmanager.Components.Fragments.session.OnListSessionFragmentInteractionListener;
+import com.example.sportmanager.Components.Fragments.session.SessionFragment;
 import com.example.sportmanager.Database.AppDatabase;
 import com.example.sportmanager.MyApplication;
 import com.example.sportmanager.R;
@@ -26,11 +34,12 @@ import com.example.sportmanager.data.Domain.Session;
 import com.example.sportmanager.data.Domain.TrainingProgram;
 import com.example.sportmanager.data.Domain.User;
 import com.example.sportmanager.data.Domain.UserFollowedTrainingsProgram;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TrainingProgramDetailFragment extends Fragment {
+public class TrainingProgramDetailFragment extends Fragment implements OnListSessionFragmentInteractionListener {
 
     private OnFragmentInteractionListener mListener;
 
@@ -56,7 +65,7 @@ public class TrainingProgramDetailFragment extends Fragment {
 
         if (getArguments() != null) {
             int trainingProgramId = getArguments().getInt("trainingProgramId");
-            this.sessions = AppDatabase.getAppDatabase(this.getContext()).sessionDao().getByTrainingProgramId(trainingProgramId);
+            this.sessions = AppDatabase.getAppDatabase(this.getContext()).trainingProgramSessionDao().getByTrainingProgramId(trainingProgramId);
             this.trainingProgram = AppDatabase.getAppDatabase(this.getContext()).TrainingProgramDao().findById(trainingProgramId);
         }
 
@@ -85,6 +94,11 @@ public class TrainingProgramDetailFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onSessionClicked(Session session) {
+
     }
 
     public interface OnFragmentInteractionListener {
@@ -143,7 +157,6 @@ public class TrainingProgramDetailFragment extends Fragment {
                 } else { //delete it
                     AppDatabase.getAppDatabase(getContext()).userFollowedTrainingsProgramDao().delete(userFollowedTrainingsProgram);
                 }
-
             }
         });
 
@@ -170,6 +183,11 @@ public class TrainingProgramDetailFragment extends Fragment {
         float f = trainingProgram.getDifficulty();
         RatingBar rb = view.findViewById(R.id.trainingProgram_detail_txtView_ratingBar);
         rb.setRating(f);
+
+        RecyclerView recyclerViewSessions = view.findViewById(R.id.trainingProgram_detail_listSessions);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        recyclerViewSessions.setLayoutManager(mLayoutManager);
+        recyclerViewSessions.setAdapter(new MySessionRecyclerViewAdapter(this.sessions, this));
 
         return view;
     }

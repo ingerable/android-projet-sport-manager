@@ -23,6 +23,7 @@ import com.example.sportmanager.R;
 import com.example.sportmanager.data.Domain.Recurrence;
 import com.example.sportmanager.data.Domain.Session;
 import com.example.sportmanager.data.Domain.TrainingProgram;
+import com.example.sportmanager.data.Domain.TrainingProgramSession;
 
 import java.util.List;
 
@@ -86,7 +87,15 @@ public class SessionCreateOrEditFragment extends Fragment {
                     session.setRecurrence(new Recurrence());
                     session = hydrateSession(session, view);
 
-                    AppDatabase.getAppDatabase(getContext()).sessionDao().insertAll(session);
+                    long sessionId = AppDatabase.getAppDatabase(getContext()).sessionDao().insert(session);
+
+                    TrainingProgramSession trainingProgramSession = new TrainingProgramSession();
+                    trainingProgramSession.setSessionId((int)sessionId);
+
+                    TrainingProgram trainingProgram = (TrainingProgram)((Spinner)view.findViewById(R.id.session_create_spinner_trainingProgram)).getSelectedItem();
+                    trainingProgramSession.setTrainingProgramId(trainingProgram.getId());
+
+                    AppDatabase.getAppDatabase(getContext()).trainingProgramSessionDao().insert(trainingProgramSession);
 
                     final FragmentTransaction ft = getFragmentManager().beginTransaction();
                     SessionFragment newFramgent = SessionFragment.newInstance();
@@ -137,11 +146,14 @@ public class SessionCreateOrEditFragment extends Fragment {
     {
         String name = ((EditText)view.findViewById(R.id.session_create_editText_name)).getText().toString();
         String desc = ((EditText)view.findViewById(R.id.session_create_editText_desc)).getText().toString();
-        int order = Integer.parseInt(((EditText)view.findViewById(R.id.session_create_editText_order)).getText().toString());
+        String order = ((EditText)view.findViewById(R.id.session_create_editText_order)).getText().toString();
+        if (!order.isEmpty()) {
+            int orderInt = Integer.parseInt(order);
+            session.setOrder(orderInt);
+        }
 
         session.setName(name);
         session.setDescription(desc);
-        session.setOrder(order);
 
         session.getRecurrence().setMonday(((CheckBox)view.findViewById(R.id.session_create_checkBox_monday)).isChecked());
         session.getRecurrence().setTuesday(((CheckBox)view.findViewById(R.id.session_create_checkBox_tuesday)).isChecked());

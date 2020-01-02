@@ -19,12 +19,16 @@ import com.example.sportmanager.R;
 import com.example.sportmanager.data.Domain.Session;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.List;
+
 
 public class SessionFragment extends Fragment implements OnListSessionFragmentInteractionListener{
 
     private static final String ARG_COLUMN_COUNT = "column-count";
 
     private int mColumnCount = 1;
+
+    private List<Session> sessions = null;
 
     public SessionFragment() {
     }
@@ -76,7 +80,10 @@ public class SessionFragment extends Fragment implements OnListSessionFragmentIn
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MySessionRecyclerViewAdapter(AppDatabase.getAppDatabase(getActivity()).sessionDao().getAll(), this));
+            if (this.sessions == null) {
+                this.sessions = AppDatabase.getAppDatabase(getActivity()).sessionDao().getAll();
+            }
+            recyclerView.setAdapter(new MySessionRecyclerViewAdapter(this.sessions, this));
         }
         return view;
     }
@@ -99,5 +106,13 @@ public class SessionFragment extends Fragment implements OnListSessionFragmentIn
         ft.replace(R.id.nav_host_fragment, newFragment);
         ft.addToBackStack(null);
         ft.commit();
+    }
+
+    public List<Session> getSessions() {
+        return sessions;
+    }
+
+    public void setSessions(List<Session> sessions) {
+        this.sessions = sessions;
     }
 }
