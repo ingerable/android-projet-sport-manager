@@ -1,5 +1,6 @@
 package com.example.sportmanager.data.Domain;
 
+import androidx.annotation.NonNull;
 import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -89,5 +90,11 @@ public class Exercice {
 
     public void setOrder(int order) {
         this.order = order;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return this.getName();
     }
 }
