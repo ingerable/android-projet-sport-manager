@@ -48,4 +48,6 @@
     <string name="choose_file">Choose file</string>
     <string name="menu_myTrainingProgram">My trainings program</string>
     <string name="menu_profile">Profile</string>
+    <string name="followedTrainingProgram">Followed training programs</string>
+    <string name="menu_followed_trainingProgram">Followed training program</string>
 </resources>

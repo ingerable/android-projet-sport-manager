@@ -4,6 +4,8 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+
+import com.example.sportmanager.data.Domain.TrainingProgram;
 import com.example.sportmanager.data.Domain.UserFollowedTrainingsProgram;
 
 import java.util.List;
@@ -22,4 +24,7 @@ public interface UserFollowedTrainingsProgramDao {
 
     @Delete
     void delete(UserFollowedTrainingsProgram userFollowedTrainingsProgram);
+
+    @Query("SELECT * FROM trainingprogram tp INNER JOIN UserFollowedTrainingsProgram uftp ON tp.id = uftp.followedTrainingProgramId WHERE uftp.userId = :userId")
+    List<TrainingProgram> findTrainingProgramByUserId(int userId);
 }
