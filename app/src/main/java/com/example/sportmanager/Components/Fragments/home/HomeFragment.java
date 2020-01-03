@@ -5,12 +5,19 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
+import com.example.sportmanager.Components.Fragments.TrainingProgram.TrainingProgramDetailFragment;
+import com.example.sportmanager.Database.AppDatabase;
+import com.example.sportmanager.MyApplication;
 import com.example.sportmanager.R;
+import com.example.sportmanager.data.Domain.TrainingProgram;
+import com.example.sportmanager.data.Domain.User;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,15 +43,6 @@ public class HomeFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment HomeFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static HomeFragment newInstance(String param1, String param2) {
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
@@ -66,11 +64,24 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        User connectedUser = ((MyApplication)getActivity().getApplication()).getConnectedUser();
+        TrainingProgram trainingProgram = AppDatabase.getAppDatabase(getContext()).TrainingProgramDao().findById(connectedUser.getFavoriteTrainingProgramId());
+
+        if (trainingProgram != null && view.findViewById(R.id.home_layout_frame) != null) {
+            TrainingProgramDetailFragment fragment = new TrainingProgramDetailFragment();
+            Bundle args = new Bundle();
+            args.putInt("trainingProgramId", trainingProgram.getId());
+            args.putInt("nonEditableAndDeletable", 1);
+            fragment.setArguments(args);
+            getFragmentManager().beginTransaction()
+                    .add(R.id.home_layout_frame, fragment, "fragment_trainingProgram_favorite").commit();
+        }
+
+        return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -80,32 +91,16 @@ public class HomeFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
+
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }

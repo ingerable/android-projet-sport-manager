@@ -4,12 +4,16 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
+import com.example.sportmanager.Components.Fragments.TrainingProgram.TrainingProgramDetailFragment;
+import com.example.sportmanager.Database.AppDatabase;
+import com.example.sportmanager.data.Domain.TrainingProgram;
 import com.example.sportmanager.data.Domain.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import android.view.View;
 
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;

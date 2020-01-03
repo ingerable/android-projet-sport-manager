@@ -120,28 +120,34 @@ public class TrainingProgramDetailFragment extends Fragment implements OnListSes
             Button btnEdit = view.findViewById(R.id.trainingProgram_detail_edit);
             Button btnDelete = view.findViewById(R.id.trainingProgram_detail_delete);
 
-            btnEdit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    final FragmentTransaction ft = getFragmentManager().beginTransaction();
-                    TrainingProgramCreateOrEditFragment newFragment = TrainingProgramCreateOrEditFragment.newInstance(trainingProgram.getId());
-                    ft.replace(R.id.nav_host_fragment, newFragment);
-                    ft.addToBackStack(null);
-                    ft.commit();
-                }
-            });
+            if (getArguments().get("nonEditableAndDeletable") != null && getArguments().getInt("nonEditableAndDeletable") == 1) {
+                btnDelete.setVisibility(View.GONE);
+                btnEdit.setVisibility(View.GONE);
+            } else {
+                btnEdit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        final FragmentTransaction ft = getFragmentManager().beginTransaction();
+                        TrainingProgramCreateOrEditFragment newFragment = TrainingProgramCreateOrEditFragment.newInstance(trainingProgram.getId());
+                        ft.replace(R.id.nav_host_fragment, newFragment);
+                        ft.addToBackStack(null);
+                        ft.commit();
+                    }
+                });
 
-            btnDelete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    AppDatabase.getAppDatabase(getContext()).userFollowedTrainingsProgramDao().delete(userFollowedTrainingsProgram);
-                    AppDatabase.getAppDatabase(getContext()).TrainingProgramDao().delete(trainingProgram);
-                }
-            });
+                btnDelete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        AppDatabase.getAppDatabase(getContext()).userFollowedTrainingsProgramDao().delete(userFollowedTrainingsProgram);
+                        AppDatabase.getAppDatabase(getContext()).TrainingProgramDao().delete(trainingProgram);
+                    }
+                });
+            }
+
         }
 
         Switch switchFollowed = view.findViewById(R.id.trainingProgram_detail_switch_follow);
-        Switch switchFavorite = view.findViewById(R.id.trainingProgram_detail_switch_favorite);
+        final Switch switchFavorite = view.findViewById(R.id.trainingProgram_detail_switch_favorite);
 
         switchFollowed.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,7 +170,11 @@ public class TrainingProgramDetailFragment extends Fragment implements OnListSes
 
             @Override
             public void onClick(View v) {
-                connectedUser.setFavoriteTrainingProgramId(trainingProgram.getId());
+                if (switchFavorite.isChecked()) {
+                    connectedUser.setFavoriteTrainingProgramId(trainingProgram.getId());
+                } else {
+                    connectedUser.setFavoriteTrainingProgramId(0);
+                }
                 AppDatabase.getAppDatabase(getContext()).userDao().update(connectedUser);
             }
         });
@@ -188,6 +198,7 @@ public class TrainingProgramDetailFragment extends Fragment implements OnListSes
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerViewSessions.setLayoutManager(mLayoutManager);
         recyclerViewSessions.setAdapter(new MySessionRecyclerViewAdapter(this.sessions, this));
+
 
         return view;
     }
