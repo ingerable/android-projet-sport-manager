@@ -28,7 +28,6 @@ public class ExerciceDetailFragment extends Fragment {
     private Exercice exercice;
 
     public ExerciceDetailFragment() {
-        // Required empty public constructor
     }
 
 

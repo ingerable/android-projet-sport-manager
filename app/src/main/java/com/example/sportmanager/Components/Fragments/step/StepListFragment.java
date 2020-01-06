@@ -16,13 +16,12 @@ import com.example.sportmanager.Database.AppDatabase;
 import com.example.sportmanager.R;
 import com.example.sportmanager.data.Domain.Step;
 
-public class StepListFragment extends Fragment {
+public class StepListFragment extends Fragment implements OnListStepFragmentInteractionListener {
 
 
     private static final String ARG_COLUMN_COUNT = "column-count";
 
     private int mColumnCount = 1;
-    private OnListFragmentInteractionListener mListener;
 
     public StepListFragment() {
     }
@@ -58,7 +57,7 @@ public class StepListFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyStepListRecyclerViewAdapter(AppDatabase.getAppDatabase(getContext()).stepDao().findAll(), mListener));
+            recyclerView.setAdapter(new MyStepListRecyclerViewAdapter(AppDatabase.getAppDatabase(getContext()).stepDao().findAll(), this));
         }
         return view;
     }
@@ -73,11 +72,10 @@ public class StepListFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
 
+    @Override
+    public void onClicked(Step step) {
 
-    public interface OnListFragmentInteractionListener {
-        void onListFragmentInteraction(Step item);
     }
 }

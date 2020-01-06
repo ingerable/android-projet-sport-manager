@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.sportmanager.Components.Fragments.step.StepListFragment.OnListFragmentInteractionListener;
 import com.example.sportmanager.R;
 import com.example.sportmanager.data.Domain.Step;
 
@@ -17,9 +16,9 @@ import java.util.List;
 public class MyStepListRecyclerViewAdapter extends RecyclerView.Adapter<MyStepListRecyclerViewAdapter.ViewHolder> {
 
     private final List<Step> mValues;
-    private final OnListFragmentInteractionListener mListener;
+    private final OnListStepFragmentInteractionListener mListener;
 
-    public MyStepListRecyclerViewAdapter(List<Step> items, OnListFragmentInteractionListener listener) {
+    public MyStepListRecyclerViewAdapter(List<Step> items, OnListStepFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -40,9 +39,7 @@ public class MyStepListRecyclerViewAdapter extends RecyclerView.Adapter<MyStepLi
             @Override
             public void onClick(View v) {
                 if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
+                    mListener.onClicked(holder.mItem);
                 }
             }
         });

@@ -26,6 +26,7 @@ import android.widget.TextView;
 
 import com.example.sportmanager.Components.Fragments.session.MySessionRecyclerViewAdapter;
 import com.example.sportmanager.Components.Fragments.session.OnListSessionFragmentInteractionListener;
+import com.example.sportmanager.Components.Fragments.session.SessionDetailFragment;
 import com.example.sportmanager.Components.Fragments.session.SessionFragment;
 import com.example.sportmanager.Database.AppDatabase;
 import com.example.sportmanager.MyApplication;
@@ -98,7 +99,11 @@ public class TrainingProgramDetailFragment extends Fragment implements OnListSes
 
     @Override
     public void onSessionClicked(Session session) {
-
+        final FragmentTransaction ft = getFragmentManager().beginTransaction();
+        final SessionDetailFragment newFragment = SessionDetailFragment.newInstance(session.getId());
+        ft.replace(R.id.nav_host_fragment, newFragment);
+        ft.addToBackStack(null);
+        ft.commit();
     }
 
     public interface OnFragmentInteractionListener {
