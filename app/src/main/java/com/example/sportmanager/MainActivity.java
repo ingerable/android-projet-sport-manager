@@ -54,8 +54,10 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
         updateUserDisplayedInfo();
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -75,14 +77,19 @@ public class MainActivity extends AppCompatActivity {
     {
         NavigationView navigationView = findViewById(R.id.nav_view);
         User connectedUser = ((MyApplication)getApplication()).getConnectedUser();
-        File file = new File(connectedUser.getPathImage());
-        View hView =  navigationView.getHeaderView(0);
-        if (file.exists()) {
-            Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-            ImageView myImage = (ImageView) hView.findViewById(R.id.header_imageView_profilPicture);
-            myImage.setImageBitmap(myBitmap);
+        if (connectedUser != null) {
+            String pathAvatar = connectedUser.getPathImage();
+            View hView =  navigationView.getHeaderView(0);
+            if (pathAvatar != null && !pathAvatar.isEmpty()) {
+                File file = new File(connectedUser.getPathImage());
+                if (file.exists()) {
+                    Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                    ImageView myImage = (ImageView) hView.findViewById(R.id.header_imageView_profilPicture);
+                    myImage.setImageBitmap(myBitmap);
+                }
+            }
+            ((TextView)hView.findViewById(R.id.nav_header_userName)).setText(connectedUser.toString());
+            ((TextView)hView.findViewById(R.id.nav_header_userLogin)).setText(connectedUser.getLogin());
         }
-        ((TextView)hView.findViewById(R.id.nav_header_userName)).setText(connectedUser.toString());
-        ((TextView)hView.findViewById(R.id.nav_header_userLogin)).setText(connectedUser.getLogin());
     }
 }

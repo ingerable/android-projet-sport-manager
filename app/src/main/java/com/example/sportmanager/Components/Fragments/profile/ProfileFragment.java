@@ -115,9 +115,11 @@ public class ProfileFragment extends Fragment {
                         intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                         startActivityForResult(intent, 1);
 
-                        File previousImage = new File(updatedUser.getPathImage());
-                        if (previousImage.exists()) {
-                            previousImage.delete();
+                        if (updatedUser.getPathImage() != null) {
+                            File previousImage = new File(updatedUser.getPathImage());
+                            if (previousImage.exists()) {
+                                previousImage.delete();
+                            }
                         }
                         updatedUser.setPathImage(photoFile.getAbsolutePath());
                     }
@@ -156,11 +158,14 @@ public class ProfileFragment extends Fragment {
         ((EditText) view.findViewById(R.id.profile_editText_weight)).setText(Float.toString(user.getWeight()));
         ((EditText) view.findViewById(R.id.profile_editText_age)).setText(Integer.toString(user.getAge()));
 
-        File file = new File(updatedUser.getPathImage());
-        if (file.exists()) {
-            Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-            ImageView myImage = (ImageView) view.findViewById(R.id.profile_imageView_picture);
-            myImage.setImageBitmap(myBitmap);
+        String pathAvatar = updatedUser.getPathImage();
+        if (pathAvatar != null) {
+            File file = new File(updatedUser.getPathImage());
+            if (file.exists()) {
+                Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                ImageView myImage = (ImageView) view.findViewById(R.id.profile_imageView_picture);
+                myImage.setImageBitmap(myBitmap);
+            }
         }
         return view;
     }

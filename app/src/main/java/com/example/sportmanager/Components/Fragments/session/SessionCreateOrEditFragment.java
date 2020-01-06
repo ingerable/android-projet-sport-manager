@@ -93,7 +93,9 @@ public class SessionCreateOrEditFragment extends Fragment {
                     trainingProgramSession.setSessionId((int)sessionId);
 
                     TrainingProgram trainingProgram = (TrainingProgram)((Spinner)view.findViewById(R.id.session_create_spinner_trainingProgram)).getSelectedItem();
-                    trainingProgramSession.setTrainingProgramId(trainingProgram.getId());
+                    if (trainingProgram != null) {
+                        trainingProgramSession.setTrainingProgramId(trainingProgram.getId());
+                    }
 
                     AppDatabase.getAppDatabase(getContext()).trainingProgramSessionDao().insert(trainingProgramSession);
 
