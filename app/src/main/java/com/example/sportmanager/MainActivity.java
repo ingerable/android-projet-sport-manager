@@ -1,19 +1,15 @@
 package com.example.sportmanager;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
-import com.example.sportmanager.Components.Fragments.TrainingProgram.TrainingProgramDetailFragment;
-import com.example.sportmanager.Database.AppDatabase;
-import com.example.sportmanager.data.Domain.TrainingProgram;
 import com.example.sportmanager.data.Domain.User;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
+import android.view.MenuItem;
 import android.view.View;
 
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -58,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
         updateUserDisplayedInfo();
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -92,4 +87,13 @@ public class MainActivity extends AppCompatActivity {
             ((TextView)hView.findViewById(R.id.nav_header_userLogin)).setText(connectedUser.getLogin());
         }
     }
+
+    public void disconnect(MenuItem menuItem)
+    {
+        MyApplication myapp = (MyApplication) getApplication();
+        myapp.setConnectedUser(null);
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        startActivity(intent);
+    }
+
 }
