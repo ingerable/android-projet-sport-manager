@@ -19,6 +19,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.sportmanager.Components.Fragments.exercice.ExerciceDetailFragment;
 import com.example.sportmanager.Components.Fragments.exercice.MyExerciceRecyclerViewAdapter;
 import com.example.sportmanager.Components.Fragments.exercice.OnListExerciceFragmentInteractionListener;
 import com.example.sportmanager.Database.AppDatabase;
@@ -173,7 +174,11 @@ public class SessionDetailFragment extends Fragment implements OnListExerciceFra
 
     @Override
     public void onExerciceClicked(Exercice exercice) {
-
+        final FragmentTransaction ft = getFragmentManager().beginTransaction();
+        final ExerciceDetailFragment newFragment = ExerciceDetailFragment.newInstance(exercice.getId());
+        ft.replace(R.id.nav_host_fragment, newFragment);
+        ft.addToBackStack(null);
+        ft.commit();
     }
 
     public interface OnFragmentInteractionListener {
