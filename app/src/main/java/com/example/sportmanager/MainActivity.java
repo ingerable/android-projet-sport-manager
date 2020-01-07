@@ -1,6 +1,8 @@
 package com.example.sportmanager;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -91,6 +93,10 @@ public class MainActivity extends AppCompatActivity {
     public void disconnect(MenuItem menuItem)
     {
         MyApplication myapp = (MyApplication) getApplication();
+        SharedPreferences sharedPref = this.getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.remove("rememberedUser");
+        editor.commit();
         myapp.setConnectedUser(null);
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent);
